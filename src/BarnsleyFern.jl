@@ -1,5 +1,5 @@
 module BarnsleyFern
 
-greet() = print("Hello World!")
+greet() = print("Hello BarnsleyFern!")
 
 end # module BarnsleyFern
