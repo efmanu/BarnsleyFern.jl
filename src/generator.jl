@@ -19,8 +19,8 @@ function nextPoint(x, y)
 end
 
 function generatePoints(;config=FernConfig())
-    x = config.x_start
-    y = config.y_start
+    x = config.spatial_config.x_start
+    y = config.spatial_config.y_start
     x_points = Vector{Float64}(undef, config.points_per_draw)
     y_points = Vector{Float64}(undef, config.points_per_draw)
 

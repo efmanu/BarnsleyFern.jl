@@ -61,6 +61,6 @@ config = FernConfig(
     x_start=0.0, y_start=0.0
 )
 
-BarnsleyFern.plotFern()
+BarnsleyFern.plotFern(;config=config)
 ```
 
