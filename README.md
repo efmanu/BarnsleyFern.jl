@@ -103,8 +103,8 @@ BarnsleyFern.plot_fern(;config=config)
 
 # Pattern:
 
-[Image][/docs/src/fern.png]
+![Image](https://github.com/efmanu/BarnsleyFern.jl/blob/main/docs/src/fern.png)
 
 
-[Animation][/docs/src/anim.gif]
+![Animation](https://github.com/efmanu/BarnsleyFern.jl/blob/main/docs/src/anim.gif)
 
