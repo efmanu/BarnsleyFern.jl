@@ -1,4 +1,4 @@
-function plotFern(;config=FernConfig())
+function plot_fern(;config=FernConfig())
     gr()
     x_points, y_points = ([config.spatial_config.x_start], [config.spatial_config.y_start])
 
@@ -14,14 +14,28 @@ function plotFern(;config=FernConfig())
         x = config.spatial_config.x_start
         y = config.spatial_config.y_start
 
-        animation = @animate for i = 1:config.points_per_draw
-            x, y = nextPoint(x, y)
-            push!(plt, x, y)
-        end 
+        # TODO : Replace uncomment and refactor this once the issue https://github.com/JuliaPlots/Plots.jl/issues/3664 gets fixed in Mac M2
+
+        cpu_info = Sys.cpu_info()
         
-        gif(animation, config.plot_config.file_name, fps=15)
+        if (Sys.KERNEL == :Darwin) && (cpu_info[1].model == "Apple M2")
+
+            @gif for i = 1:config.points_per_draw
+                x, y = next_point(x, y)
+                push!(plt, x, y)
+            end every config.plot_config.fps
+            
+        else
+            animation = @animate for i = 1:config.points_per_draw
+                x, y = next_point(x, y)
+                push!(plt, x, y)
+            end every config.plot_config.fps
+
+            gif(animation, config.plot_config.file_name, fps=config.plot_config.fps)
+        end
+        
     else
-        x_points_new, y_points_new = generatePoints(;config=config)
+        x_points_new, y_points_new = generate_points(;config=config)
         append!(x_points, x_points_new)
         append!(y_points, y_points_new)
         plot!(x_points_new, y_points_new, seriestype = :scatter, markersize = 0.5)
