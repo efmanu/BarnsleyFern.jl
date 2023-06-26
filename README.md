@@ -91,21 +91,20 @@ In this settings `f1` contains 3 fields
 
 # Generate BarnsleyFern plots
 
-# Generate BarnsleyFern plots with default settings
+### Generate BarnsleyFern plots with default settings
 ```julia
 BarnsleyFern.plot_fern()
 ```
 
-# Generate BarnsleyFern plots with custom settings
+### Generate BarnsleyFern plots with custom settings
 ```julia
-
-config = FernConfig(
-    ;points_per_draw=10000, 
-    x_min=-2.182, x_max=2.6558, 
-    y_min=0, y_max= 9.9983, 
-    x_start=0.0, y_start=0.0
-)
-
 BarnsleyFern.plot_fern(;config=config)
 ```
+
+# Pattern:
+
+[Image][/docs/src/fern.png]
+
+
+[Animation][/docs/src/anim.gif]
 
