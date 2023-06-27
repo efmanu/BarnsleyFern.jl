@@ -11,6 +11,9 @@ Base.@kwdef mutable struct PlotConfig
     animated::Bool = false
     file_name::String = "barnsley_fern.gif"
     fps::Int = 10
+    type::Symbol = :scatter
+    nx::Int = 100
+    ny::Int = 100
 end
 
 Base.@kwdef mutable struct ModelParams

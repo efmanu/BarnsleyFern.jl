@@ -1,4 +1,39 @@
 function plot_fern(;config=FernConfig())
+    if config.plot_config.type == :scatter
+        plot_scatter_fern(;config=FernConfig())
+    elseif config.plot_config.type == :image
+        plot_image_fern(;config=FernConfig())
+    end
+end
+
+function plot_image_fern(;config=FernConfig())
+    color = RGB(0.0, 1.0, 0.0)
+    bgcolor = RGB(0.0, 0.0, 0.0)
+    x_points_new, y_points_new = generate_points(;config=config)
+    pixel_loc =  get_pixel_location.(x_points_new, y_points_new, Ref(config))
+    f = colorview(RGB, fill(RGB{Float64}(0.0, 0.0, 0.0), config.plot_config.nx, config.plot_config.ny))
+    [f[y,x] = color for (x,y) in pixel_loc]
+    return f
+
+end
+
+function get_pixel_location(x, y, config)
+    # Calculate the width and height of the rectangle
+    width = config.spatial_config.x_max - config.spatial_config.x_min
+    height = config.spatial_config.y_max - config.spatial_config.y_min
+
+    # Calculate the pixel size in the x and y directions
+    pixel_size_x = width / (config.plot_config.nx - 1)
+    pixel_size_y = height / (config.plot_config.ny - 1)
+
+    # Calculate the pixel location corresponding to (x, y)
+    pixel_x = floor(Int, (x - config.spatial_config.x_min) / pixel_size_x) + 1
+    pixel_y = floor(Int, (config.spatial_config.y_max - y) / pixel_size_y) + 1
+
+    return pixel_x, pixel_y
+end
+
+function plot_scatter_fern(;config=FernConfig())
     gr()
     x_points, y_points = ([config.spatial_config.x_start], [config.spatial_config.y_start])
 
