@@ -1,8 +1,8 @@
 function plot_fern(;config=FernConfig())
-    if config.plot_config.type == :scatter
-        plot_scatter_fern(;config=FernConfig())
-    elseif config.plot_config.type == :image
-        plot_image_fern(;config=FernConfig())
+    if config.plot_config isa ImagePlot
+        plot_image_fern(;config=config)
+    else
+        plot_scatter_fern(;config=config)
     end
 end
 
@@ -11,10 +11,9 @@ function plot_image_fern(;config=FernConfig())
     bgcolor = RGB(0.0, 0.0, 0.0)
     x_points_new, y_points_new = generate_points(;config=config)
     pixel_loc =  get_pixel_location.(x_points_new, y_points_new, Ref(config))
-    f = colorview(RGB, fill(RGB{Float64}(0.0, 0.0, 0.0), config.plot_config.nx, config.plot_config.ny))
-    [f[y,x] = color for (x,y) in pixel_loc]
-    return f
-
+    f = colorview(RGB, fill(config.plot_config.bgcolor, config.plot_config.nx, config.plot_config.ny))
+    [f[y,x] = config.plot_config.color for (x,y) in pixel_loc]
+    imshow(f)
 end
 
 function get_pixel_location(x, y, config)
@@ -44,7 +43,8 @@ function plot_scatter_fern(;config=FernConfig())
     ylabel!("Y")
     title!("Barnsley Fern")
 
-    if config.plot_config.animated
+    if config.plot_config isa AnimatedPlot
+        
 
         x = config.spatial_config.x_start
         y = config.spatial_config.y_start
@@ -53,8 +53,7 @@ function plot_scatter_fern(;config=FernConfig())
 
         cpu_info = Sys.cpu_info()
         
-        if (Sys.KERNEL == :Darwin) && (cpu_info[1].model == "Apple M2")
-
+        if (Sys.KERNEL == :Darwin) && (in(cpu_info[1].model, ["Apple M1", "Apple M2"]))
             @gif for i = 1:config.points_per_draw
                 x, y = next_point(x, y)
                 push!(plt, x, y)
