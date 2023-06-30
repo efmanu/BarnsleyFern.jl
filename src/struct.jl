@@ -7,10 +7,21 @@ Base.@kwdef mutable struct SpatialConfig
     y_start::Float64 = 0.0
 end
 
-Base.@kwdef mutable struct PlotConfig
-    animated::Bool = false
+
+abstract type PlotConfig end
+
+Base.@kwdef mutable struct AnimatedPlot <: PlotConfig
     file_name::String = "barnsley_fern.gif"
     fps::Int = 10
+end
+
+mutable struct ScatterPlot <: PlotConfig end
+
+Base.@kwdef mutable struct ImagePlot <: PlotConfig
+    nx::Int = 100
+    ny::Int = 100
+    color::RGB{Float64} = RGB(0.0, 1.0, 0.0)
+    bgcolor::RGB{Float64} = RGB(0.0, 1.0, 0.0)
 end
 
 Base.@kwdef mutable struct ModelParams
@@ -29,6 +40,6 @@ end
 Base.@kwdef mutable struct FernConfig
     points_per_draw::Int = 10000
     spatial_config::SpatialConfig = SpatialConfig()
-    plot_config::PlotConfig = PlotConfig()
+    plot_config::PlotConfig = ScatterPlot()
     model_config::ModelConfig = ModelConfig()
 end

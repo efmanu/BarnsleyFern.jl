@@ -1,3 +1,19 @@
+"""
+    next_point(x, y;config=ModelConfig())
+
+Returns next points in the pattern
+
+# Arguments:
+- `x::Float64` : x point
+- `y::Float64` : y point
+
+# Keyword Arguments
+- `config::ModelConfig` :  Configuration
+
+# Response:
+- `x_next::Float64`
+- `y_next::Float64`
+"""
 function next_point(x, y;config=ModelConfig())
     random = rand()
     x_next, y_next = (0.0,0.0)

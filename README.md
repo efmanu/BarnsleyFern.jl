@@ -55,14 +55,18 @@ config.spatial_config = BarnsleyFern.SpatialConfig(
 You can modifiy plot configurations in the default config as below:
 
 ```julia
-config.plot_config = BarnsleyFern.PlotConfig(
-    animated = true, file_name =  "barnsley_fern.gif", fps=10
-)
+config.plot_config = BarnsleyFern.ScatterPlot()
 ```
 
-`animated =true` will generate animations of point generation and that animation will be stored with `file_name` path with frame rate of `fps`.
+To save animated plot, update `config.plot_config` as
+```julia
+config.plot_config = BarnsleyFern.AnimatedPlot()
+```
 
-Default value of `animated` is `false` and it will just plot the figure.
+To show image plot, update `config.plot_config` as
+```julia
+config.plot_config = BarnsleyFern.ImagePlot()
+```
 
 #### Model Config
 
@@ -107,4 +111,6 @@ BarnsleyFern.plot_fern(;config=config)
 
 
 ![Animation](https://github.com/efmanu/BarnsleyFern.jl/blob/main/docs/src/anim.gif)
+
+![Animation](https://github.com/efmanu/BarnsleyFern.jl/blob/main/docs/src/fern_img.png)
 
